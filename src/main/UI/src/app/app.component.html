@@ -81,6 +81,8 @@
                 <td>
                   <strong>Room #: {{room.roomNumber}}</strong><br/>
                   <strong>Price: ${{room.price}}</strong>
+                  <strong>Price: CA${{Math.round(+room.price*1.32)}}</strong><br/>
+                  <strong>Price: €{{Math.round(+room.price*0.89)}}</strong>
                 </td>
                 <td>
                   <button type="submit" class="btn btn-primary" (click)="reserveRoom(room.id)">Reserve</button>
