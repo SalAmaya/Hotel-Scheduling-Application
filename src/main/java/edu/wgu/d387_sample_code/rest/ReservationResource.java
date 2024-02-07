@@ -42,29 +42,29 @@ public class ReservationResource {
     @Autowired
     ApplicationContext context;
 
-       // @Autowired
-       // PageableRoomRepository pageableRoomRepository;
+    // @Autowired
+    // PageableRoomRepository pageableRoomRepository;
 
-        @Autowired
-        RoomRepository roomRepository;
+    @Autowired
+    RoomRepository roomRepository;
 
-        @Autowired
-        ReservationRepository reservationRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
 
-        @Autowired
-        ConversionService conversionService;
+    @Autowired
+    ConversionService conversionService;
 
-        @Autowired
-        private RoomEntityToReservableRoomResponseConverter converter;
+    @Autowired
+    private RoomEntityToReservableRoomResponseConverter converter;
 
     @RequestMapping(path ="", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<ReservableRoomResponse> getAvailableRooms (
             @RequestParam(value = "checkin")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate checkin,
+            LocalDate checkin,
             @RequestParam(value = "checkout")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate checkout, Pageable pageable) {
+            LocalDate checkout, Pageable pageable) {
 
 
         RoomService roomService=context.getBean(RoomServiceImpl.class);
@@ -85,7 +85,7 @@ public class ReservationResource {
     @RequestMapping(path = "/{roomId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoomEntity> getRoomById(
             @PathVariable
-                    Long roomId) {
+            Long roomId) {
 
         Optional<RoomEntity> result  = roomRepository.findById(roomId);
         RoomEntity roomEntity= null;
@@ -108,10 +108,10 @@ public class ReservationResource {
             @RequestBody
             ReservationRequest reservationRequest) {
 
-            ReservationEntity reservationEntity = conversionService.convert(reservationRequest, ReservationEntity.class);
-            reservationRepository.save(reservationEntity);
+        ReservationEntity reservationEntity = conversionService.convert(reservationRequest, ReservationEntity.class);
+        reservationRepository.save(reservationEntity);
         ReservationService repository=context.getBean(ReservationServiceImpl.class);
-            reservationEntity=repository.findLast();
+        reservationEntity=repository.findLast();
         Optional<RoomEntity> result  = roomRepository.findById(reservationRequest.getRoomId());
         RoomEntity roomEntity= null;
 
@@ -125,15 +125,15 @@ public class ReservationResource {
         }
 
         roomEntity.addReservationEntity(reservationEntity);
-            roomRepository.save(roomEntity);
-            reservationEntity.setRoomEntity(roomEntity);
+        roomRepository.save(roomEntity);
+        reservationEntity.setRoomEntity(roomEntity);
 
-            ReservationResponse reservationResponse =
-                    conversionService.convert(reservationEntity, ReservationResponse.class);
+        ReservationResponse reservationResponse =
+                conversionService.convert(reservationEntity, ReservationResponse.class);
 
 
-            return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
-       // return new ResponseEntity<>(new ReservationResponse(), HttpStatus.CREATED);
+        return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
+        // return new ResponseEntity<>(new ReservationResponse(), HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,
@@ -154,3 +154,4 @@ public class ReservationResource {
     }
 
 }
+
