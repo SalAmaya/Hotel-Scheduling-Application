@@ -1,11 +1,16 @@
+
+
 <header id="intro" style="display: block;">
   <article class="fullheight" style="height: 568px;">
     <div class="hgroup">
       <h1>Landon Hotel</h1>
       <h2>London, Ontario</h2>
-      <h3 *ngFor="let msg of weclomeMessages" style="color: white;text-align: center;background: black;">
-        {{msg}}
-      </h3>
+      <div *ngIf="WelcomeMessageEnglish$ | async as WelcomeMessageEnglish">
+        <h3>Welcome Message (English): {{ WelcomeMessageEnglish }}</h3>
+      </div>
+      <div *ngIf="WelcomeMessageFrench$ | async as WelcomeMessageFrench">
+        <h3>Welcome Message (French): {{ WelcomeMessageFrench }}</h3>
+      </div>
       <p><a href="/#welcome"><img src="assets/images/arrow.png" alt="down arrow"></a></p>
     </div>
   </article>
@@ -15,7 +20,9 @@
        style="display: block; top: auto; left: auto; bottom: auto; right: auto; position: relative; margin: 0 auto auto; box-sizing: content-box; width: 100%; min-height: 44px; height: auto; padding-top: 0; padding-bottom: 0;">
     <nav id="nav" style="position: relative; top: 0; left: 0; bottom: auto; right: auto; width: 100%;">
       <div class="navbar">
+
         <div class="brand"><a href="/#welcome">Landon <span>Hotel</span></a></div>
+
       </div><!-- navbar -->
     </nav>
   </div>
@@ -23,14 +30,6 @@
 <main id="wrapper">
   <div class="scene" id="welcome">
     <article class="content">
-      <div class="row">
-        <div class="col-12" *ngIf="presentationTimes && presentationTimes.length >= 3">
-          <p> Join us at the upcomming live presentation!</p>
-          <p> US/Eastern: {{presentationTimes[0]}}</p>
-          <p> US/Mountain: {{presentationTimes[1]}}</p>
-          <p> Universal Time: {{presentationTimes[2]}}</p>
-        </div>
-      </div>
       <div class="row">
         <div class=""col-12>
           <div class="gallery">
@@ -81,8 +80,7 @@
                 </td>
                 <td>
                   <strong>Room #: {{room.roomNumber}}</strong><br/>
-                  <strong>Price: ${{room.price}}</strong><br/>
-
+                  <strong>Price: ${{room.price}}</strong>
                 </td>
                 <td>
                   <button type="submit" class="btn btn-primary" (click)="reserveRoom(room.id)">Reserve</button>
@@ -229,4 +227,3 @@
   </article>
 </footer>
 <script src="src/app/images/script.js"></script>
-
