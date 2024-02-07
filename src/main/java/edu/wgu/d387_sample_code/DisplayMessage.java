@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class DisplayMessage {
-    private static final String BASE_NAME = "WelcomeMessage"; // Name of the resource bundle file
+    private static final String BASE_NAME = "WelcomeMessages"; // Name of the resource bundle file
     private Locale locale;
 
     public DisplayMessage(Locale locale) {
@@ -13,7 +13,7 @@ public class DisplayMessage {
     }
 
     public String getWelcomeMessage() {
-        return ResourceBundle.getBundle(BASE_NAME, locale).getString("WelcomeMessage");
+        return ResourceBundle.getBundle(BASE_NAME, locale).getString("WelcomeMessages");
     }
 
     public static void main(String[] args) {

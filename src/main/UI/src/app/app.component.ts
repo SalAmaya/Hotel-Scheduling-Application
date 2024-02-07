@@ -14,10 +14,6 @@ import {map} from "rxjs/operators";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  WelcomeMessageEnglish$!: Observable<string>;
-  WelcomeMessageFrench$!: Observable<string>;
-
-  printAllZones$!: Observable<string>;
 
   constructor(private httpClient:HttpClient){}
 
@@ -31,18 +27,13 @@ export class AppComponent implements OnInit{
   request!:ReserveRoomRequest;
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
+  weclomeMessages!:string[];
+  presentationTimes!:string[];
 
   ngOnInit(){
-
-    this.WelcomeMessageEnglish$ = this.httpClient.get(this.baseURL + '/welcome?lang=en-US', {responseType: 'text'})
-    this.WelcomeMessageFrench$ = this.httpClient.get(this.baseURL + '/welcome?lang=fr-CA', {responseType: 'text'})
-
-    this.printAllZones$ = this.httpClient.get(this.baseURL + '/convert', {responseType: 'text'})
-
-
     this.roomsearch= new FormGroup({
-        checkin: new FormControl(' '),
-        checkout: new FormControl(' ')
+      checkin: new FormControl(' '),
+      checkout: new FormControl(' ')
     });
 
     //     this.rooms=ROOMS;
@@ -55,12 +46,22 @@ export class AppComponent implements OnInit{
       this.currentCheckInVal = x.checkin;
       this.currentCheckOutVal = x.checkout;
     });
+
+    // Load welcome messages
+    this.getWeclomeMessages().subscribe(
+        msgs => {this.weclomeMessages=msgs;}
+    )
+
+    // Load presentation times
+    this.getPresentationTimes().subscribe(
+        times => {this.presentationTimes=times;}
+    )
   }
 
   onSubmit({value,valid}:{value:Roomsearch,valid:boolean}){
     this.getAll().subscribe(
 
-      rooms => {console.log(Object.values(rooms)[0]);this.rooms=<Room[]>Object.values(rooms)[0]; }
+        rooms => {console.log(Object.values(rooms)[0]);this.rooms=<Room[]>Object.values(rooms)[0]; }
 
 
     );
@@ -81,7 +82,7 @@ export class AppComponent implements OnInit{
     }
 
     this.httpClient.post(this.postUrl, body, options)
-      .subscribe(res => console.log(res));
+        .subscribe(res => console.log(res));
   }
 
   /*mapRoom(response:HttpResponse<any>): Room[]{
@@ -94,6 +95,15 @@ export class AppComponent implements OnInit{
     return this.httpClient.get(this.baseURL + '/room/reservation/v1?checkin='+ this.currentCheckInVal + '&checkout='+this.currentCheckOutVal, {responseType: 'json'});
   }
 
+  getWeclomeMessages(): Observable<any> {
+    return this.httpClient.get(this.baseURL + '/resources/welcome', {responseType: 'json'});
+  }
+
+  getPresentationTimes(): Observable<any> {
+    return this.httpClient.get(this.baseURL + '/time/presentation', {responseType: 'json'});
+  }
+
+  protected readonly Math = Math;
 }
 
 
@@ -149,4 +159,3 @@ var ROOMS: Room[]=[
   "links" : ""
 }
 ] */
-
