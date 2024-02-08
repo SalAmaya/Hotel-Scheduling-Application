@@ -1,0 +1,10 @@
+1. I'd opt in for Azure for a multi-thread web app as my cloud provider.
+2. Just as we did, I'd begin with setting up a container registry to store an image file.
+3. Following that step, I would build the image with the respective version tag and push to the registry file.
+4. Next, I'd proceed to generate an Azure Container Instance by utilizing the image I previously pushed to the Azure Container Registry in the third step.
+5. Lastly, I'd initiate the deployment of the Azure Container Instance, ensuring it becomes accessible and operational.
+
+
+
+
+
